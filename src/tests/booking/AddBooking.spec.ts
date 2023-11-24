@@ -40,7 +40,7 @@ describe("Add Booking", () => {
     );
   });
 
-  it("@Smoke - Add Booking Successfully - Status code 201", async () => {
+  it("@Regression - Add Booking Successfully - Status code 201", async () => {
     const booking: BookingModel = {
       firstname: "Jim",
       lastname: "Brown",
@@ -58,7 +58,7 @@ describe("Add Booking", () => {
     response.status.should.equal(201);
   });
 
-  it("@Smoke - No Firstname - 400", async () => {
+  it("@Regression - No Firstname - 400", async () => {
     const response = await bookingService.addBooking<BookingResponse>({
       lastname: "Snow",
       totalprice: 1000,

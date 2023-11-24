@@ -6,12 +6,14 @@
 * Copy the example.env
 * Rename it as .env
 * Update the following properties
-  * BASEURL="https://<baseUrl>"
-  * USER=<username>
-  * PASSWORD=<password>
+  * BASEURL=
+  * USER=
+  * PASSWORD=
 
 # Run tests
   * `npm test`
+  * `npm run smoke`
+  * `npm run regression`
 
 # How to use prettier - formatting tool
   * Check for issues: `npm run check` 
