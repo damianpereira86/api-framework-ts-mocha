@@ -1,7 +1,7 @@
 import { type AxiosRequestConfig } from "axios";
 import { ApiClient } from "./ApiClient.js";
-import { type Response } from "../models/responses/Response";
 import { type SessionResponse } from "../models/responses/SessionResponse";
+import { AuthService } from "../models/services/AuthService.js";
 
 export class ServiceBase {
   protected api: ApiClient;
@@ -15,13 +15,11 @@ export class ServiceBase {
   }
 
   async Authenticate(): Promise<void> {
-    const response: Response<SessionResponse> = await this.api.client.post(
-      this.api.baseUrl + "/auth",
-      {
-        username: "admin",
-        password: "password123",
-      },
-    );
+    const authService = new AuthService();
+    const response = await authService.signIn<SessionResponse>({
+      username: process.env["USER"],
+      password: process.env["PASSWORD"],
+    });
     this.defaultConfig = {
       headers: { Cookie: "token=" + response.data.token },
     };

@@ -6,7 +6,9 @@
 * Copy the example.env
 * Rename it as .env
 * Update the following properties
-  * BASEURL: "https://<baseUrl>"
+  * BASEURL="https://<baseUrl>"
+  * USER=<username>
+  * PASSWORD=<password>
 
 # Run tests
   * `npm test`

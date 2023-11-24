@@ -28,7 +28,7 @@ describe("Update Booking", () => {
     bookingId = response.data.bookingid;
   });
 
-  it.skip("@Smoke - Update Booking successfully - 200", async () => {
+  it("@Smoke - Update Booking successfully - 200", async () => {
     const booking: BookingModel = {
       firstname: "Jim",
       lastname: "Brown",
