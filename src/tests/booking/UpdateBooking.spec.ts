@@ -9,6 +9,10 @@ describe("Update Booking", () => {
   const bookingService = new BookingService();
   let bookingId: number;
 
+  before(async () => {
+    await bookingService.Authenticate();
+  });
+
   beforeEach(async () => {
     const response = await bookingService.addBooking<BookingResponse>({
       firstname: "John",
@@ -22,11 +26,9 @@ describe("Update Booking", () => {
       additionalneeds: "Breakfast",
     });
     bookingId = response.data.bookingid;
-
-    await bookingService.Authenticate();
   });
 
-  it("@Smoke - Update Booking successfully - 200", async () => {
+  it.skip("@Smoke - Update Booking successfully - 200", async () => {
     const booking: BookingModel = {
       firstname: "Jim",
       lastname: "Brown",

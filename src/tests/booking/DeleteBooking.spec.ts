@@ -8,6 +8,10 @@ describe("Delete Booking", () => {
   const bookingService = new BookingService();
   let bookingId: number;
 
+  before(async () => {
+    await bookingService.Authenticate();
+  });
+
   beforeEach(async () => {
     const response = await bookingService.addBooking<BookingResponse>({
       firstname: "John",
@@ -21,8 +25,6 @@ describe("Delete Booking", () => {
       additionalneeds: "Breakfast",
     });
     bookingId = response.data.bookingid;
-
-    await bookingService.Authenticate();
   });
 
   it("@Smoke - Delete Booking successfully", async () => {
