@@ -54,21 +54,18 @@ describe("Update Booking", () => {
   });
 
   it("@Regression - Unauthorized - 403", async () => {
-    const response = await bookingService.updateBooking<BookingResponse>(
-      bookingId,
-      {
-        firstname: "John",
-        lastname: "Winter",
-        totalprice: 500,
-        depositpaid: true,
-        bookingdates: {
-          checkin: "2024-01-01",
-          checkout: "2024-02-01",
-        },
-        additionalneeds: "Lunch",
+    const unauthorizedBookingService = new BookingService();
+    const response = await unauthorizedBookingService.updateBooking<BookingResponse>(bookingId, {
+      firstname: "John",
+      lastname: "Winter",
+      totalprice: 500,
+      depositpaid: true,
+      bookingdates: {
+        checkin: "2024-01-01",
+        checkout: "2024-02-01",
       },
-      {},
-    );
+      additionalneeds: "Lunch",
+    });
     response.status.should.equal(403, JSON.stringify(response.data));
   });
 

@@ -9,6 +9,10 @@ describe("Patch Booking", () => {
   const bookingService = new BookingService();
   let originalBooking: BookingResponse;
 
+  before(async () => {
+    await bookingService.Authenticate();
+  });
+
   beforeEach(async () => {
     const response = await bookingService.addBooking<BookingResponse>({
       firstname: "John",
@@ -22,8 +26,6 @@ describe("Patch Booking", () => {
       additionalneeds: "Breakfast",
     });
     originalBooking = response.data;
-
-    await bookingService.Authenticate();
   });
 
   it("@Smoke - Partially Update Booking successfully - 200", async () => {
@@ -51,7 +53,8 @@ describe("Patch Booking", () => {
   });
 
   it("@Regression - Unauthorized - 403", async () => {
-    const response = await bookingService.partialUpdateBooking<BookingResponse>(
+    const unauthorizedBookingService = new BookingService();
+    const response = await unauthorizedBookingService.partialUpdateBooking<BookingResponse>(
       originalBooking,
       {
         firstname: "John",

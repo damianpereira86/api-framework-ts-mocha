@@ -41,7 +41,8 @@ describe("Delete Booking", () => {
   });
 
   it("@Regression - Unauthorized - 403", async () => {
-    const response = await bookingService.deleteBooking<BookingResponse>(bookingId, {});
+    const unauthorizedBookingService = new BookingService();
+    const response = await unauthorizedBookingService.deleteBooking<BookingResponse>(bookingId);
     response.status.should.equal(403, JSON.stringify(response.data));
   });
 
