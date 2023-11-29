@@ -15,17 +15,11 @@ export class BookingService extends ServiceBase {
     return await this.api.client.get(this.url, config);
   }
 
-  async getBooking<T>(
-    id: unknown,
-    config = this.defaultConfig,
-  ): Promise<Response<T>> {
+  async getBooking<T>(id: unknown, config = this.defaultConfig): Promise<Response<T>> {
     return await this.api.client.get(`${this.url}/${id}`, config);
   }
 
-  async addBooking<T>(
-    booking: BookingModel,
-    config = this.defaultConfig,
-  ): Promise<Response<T>> {
+  async addBooking<T>(booking: BookingModel, config = this.defaultConfig): Promise<Response<T>> {
     return await this.api.client.post(this.url, booking, config);
   }
 
@@ -45,10 +39,7 @@ export class BookingService extends ServiceBase {
     return await this.api.client.patch(`${this.url}/${id}`, booking, config);
   }
 
-  async deleteBooking<T>(
-    id: unknown,
-    config = this.defaultConfig,
-  ): Promise<Response<T>> {
+  async deleteBooking<T>(id: unknown, config = this.defaultConfig): Promise<Response<T>> {
     return await this.api.client.delete(`${this.url}/${id}`, config);
   }
 }

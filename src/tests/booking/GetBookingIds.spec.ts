@@ -34,9 +34,7 @@ describe("Get Booking Ids", () => {
     const params = new URLSearchParams();
     params.append("firstname", randomFirstName);
 
-    const response = await bookingService.getBookingIds<BookingIdResponse[]>(
-      params,
-    );
+    const response = await bookingService.getBookingIds<BookingIdResponse[]>(params);
 
     response.status.should.equal(200, JSON.stringify(response.data));
     response.data.length.should.equal(1);

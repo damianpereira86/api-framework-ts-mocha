@@ -47,9 +47,7 @@ describe("Patch Booking", () => {
     response.data.bookingdates?.checkout?.should.equal(
       originalBooking.booking.bookingdates?.checkout,
     );
-    response.data.additionalneeds?.should.equal(
-      originalBooking.booking.additionalneeds,
-    );
+    response.data.additionalneeds?.should.equal(originalBooking.booking.additionalneeds);
   });
 
   it("@Regression - Unauthorized - 403", async () => {
@@ -73,20 +71,17 @@ describe("Patch Booking", () => {
 
   it("@Regression - Partially Update Non-existent booking - 404", async () => {
     const bookingId = 999999999;
-    const response = await bookingService.partialUpdateBooking<BookingResponse>(
-      bookingId,
-      {
-        firstname: "John",
-        lastname: "Winter",
-        totalprice: 500,
-        depositpaid: true,
-        bookingdates: {
-          checkin: "2024-01-01",
-          checkout: "2024-02-01",
-        },
-        additionalneeds: "Lunch",
+    const response = await bookingService.partialUpdateBooking<BookingResponse>(bookingId, {
+      firstname: "John",
+      lastname: "Winter",
+      totalprice: 500,
+      depositpaid: true,
+      bookingdates: {
+        checkin: "2024-01-01",
+        checkout: "2024-02-01",
       },
-    );
+      additionalneeds: "Lunch",
+    });
     response.status.should.equal(404, JSON.stringify(response.data));
   });
 });

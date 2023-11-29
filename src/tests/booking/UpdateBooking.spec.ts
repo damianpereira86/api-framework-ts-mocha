@@ -41,22 +41,15 @@ describe("Update Booking", () => {
       additionalneeds: "Lunch",
     };
 
-    const response = await bookingService.updateBooking<BookingModel>(
-      bookingId,
-      booking,
-    );
+    const response = await bookingService.updateBooking<BookingModel>(bookingId, booking);
 
     response.status.should.equal(200, JSON.stringify(response.data));
     response.data.firstname?.should.equal(booking.firstname);
     response.data.lastname?.should.equal(booking.lastname);
     response.data.totalprice?.should.equal(booking.totalprice);
     response.data.depositpaid?.should.be.false;
-    response.data.bookingdates?.checkin?.should.equal(
-      booking.bookingdates?.checkin,
-    );
-    response.data.bookingdates?.checkout?.should.equal(
-      booking.bookingdates?.checkout,
-    );
+    response.data.bookingdates?.checkin?.should.equal(booking.bookingdates?.checkin);
+    response.data.bookingdates?.checkout?.should.equal(booking.bookingdates?.checkout);
     response.data.additionalneeds?.should.equal(booking.additionalneeds);
   });
 
@@ -81,20 +74,17 @@ describe("Update Booking", () => {
 
   it("@Regression - Update Non-existent booking - 404", async () => {
     const bookingId = 999999999;
-    const response = await bookingService.updateBooking<BookingResponse>(
-      bookingId,
-      {
-        firstname: "John",
-        lastname: "Winter",
-        totalprice: 500,
-        depositpaid: true,
-        bookingdates: {
-          checkin: "2024-01-01",
-          checkout: "2024-02-01",
-        },
-        additionalneeds: "Lunch",
+    const response = await bookingService.updateBooking<BookingResponse>(bookingId, {
+      firstname: "John",
+      lastname: "Winter",
+      totalprice: 500,
+      depositpaid: true,
+      bookingdates: {
+        checkin: "2024-01-01",
+        checkout: "2024-02-01",
       },
-    );
+      additionalneeds: "Lunch",
+    });
     response.status.should.equal(404, JSON.stringify(response.data));
   });
 });

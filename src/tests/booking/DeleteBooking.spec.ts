@@ -28,37 +28,26 @@ describe("Delete Booking", () => {
   });
 
   it("@Smoke - Delete Booking successfully", async () => {
-    const response = await bookingService.deleteBooking<BookingResponse>(
-      bookingId,
-    );
+    const response = await bookingService.deleteBooking<BookingResponse>(bookingId);
     response.status.should.equal(201, JSON.stringify(response.data));
 
-    const getResponse = await bookingService.getBooking<BookingResponse>(
-      bookingId,
-    );
+    const getResponse = await bookingService.getBooking<BookingResponse>(bookingId);
     getResponse.status.should.equal(404, JSON.stringify(getResponse.data));
   });
 
   it("@Regression - Delete Booking successfully - Status code 204", async () => {
-    const response = await bookingService.deleteBooking<BookingResponse>(
-      bookingId,
-    );
+    const response = await bookingService.deleteBooking<BookingResponse>(bookingId);
     response.status.should.equal(204, JSON.stringify(response.data));
   });
 
   it("@Regression - Unauthorized - 403", async () => {
-    const response = await bookingService.deleteBooking<BookingResponse>(
-      bookingId,
-      {},
-    );
+    const response = await bookingService.deleteBooking<BookingResponse>(bookingId, {});
     response.status.should.equal(403, JSON.stringify(response.data));
   });
 
   it("@Regression - Delete Non-existent booking - 404", async () => {
     const bookingId = 999999999;
-    const response = await bookingService.deleteBooking<BookingResponse>(
-      bookingId,
-    );
+    const response = await bookingService.deleteBooking<BookingResponse>(bookingId);
     response.status.should.equal(404, JSON.stringify(response.data));
   });
 });

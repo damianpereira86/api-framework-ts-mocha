@@ -21,10 +21,7 @@ describe("Sign In", () => {
       password: "pass",
     });
     response.status.should.equal(200, JSON.stringify(response.data));
-    response.data.reason.should.equal(
-      "Bad credentials",
-      JSON.stringify(response.data),
-    );
+    response.data.reason.should.equal("Bad credentials", JSON.stringify(response.data));
   });
 
   it("@Regression - Sign In - with a wrong password", async () => {
@@ -33,9 +30,6 @@ describe("Sign In", () => {
       password: "wrong_password",
     });
     response.status.should.equal(200, JSON.stringify(response.data));
-    response.data.reason.should.equal(
-      "Bad credentials",
-      JSON.stringify(response.data),
-    );
+    response.data.reason.should.equal("Bad credentials", JSON.stringify(response.data));
   });
 });

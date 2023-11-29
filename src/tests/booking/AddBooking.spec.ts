@@ -29,15 +29,9 @@ describe("Add Booking", () => {
     response.data.booking.lastname?.should.equal(booking.lastname);
     response.data.booking.totalprice?.should.equal(booking.totalprice);
     response.data.booking.depositpaid?.should.be.true;
-    response.data.booking.bookingdates?.checkin?.should.equal(
-      booking.bookingdates?.checkin,
-    );
-    response.data.booking.bookingdates?.checkout?.should.equal(
-      booking.bookingdates?.checkout,
-    );
-    response.data.booking.additionalneeds?.should.equal(
-      booking.additionalneeds,
-    );
+    response.data.booking.bookingdates?.checkin?.should.equal(booking.bookingdates?.checkin);
+    response.data.booking.bookingdates?.checkout?.should.equal(booking.bookingdates?.checkout);
+    response.data.booking.additionalneeds?.should.equal(booking.additionalneeds);
   });
 
   it("@Regression - Add Booking Successfully - Status code 201", async () => {

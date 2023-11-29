@@ -29,22 +29,14 @@ describe("Get Booking", () => {
     response.data.lastname?.should.equal(booking.data.booking.lastname);
     response.data.totalprice?.should.equal(booking.data.booking.totalprice);
     response.data.depositpaid?.should.be.true;
-    response.data.bookingdates?.checkin?.should.equal(
-      booking.data.booking.bookingdates?.checkin,
-    );
-    response.data.bookingdates?.checkout?.should.equal(
-      booking.data.booking.bookingdates?.checkout,
-    );
-    response.data.additionalneeds?.should.equal(
-      booking.data.booking.additionalneeds,
-    );
+    response.data.bookingdates?.checkin?.should.equal(booking.data.booking.bookingdates?.checkin);
+    response.data.bookingdates?.checkout?.should.equal(booking.data.booking.bookingdates?.checkout);
+    response.data.additionalneeds?.should.equal(booking.data.booking.additionalneeds);
   });
 
   it("@Regression - Get Non-existent Booking - 404", async () => {
     const bookingId = 999999999;
-    const response = await bookingService.getBooking<BookingResponse>(
-      bookingId,
-    );
+    const response = await bookingService.getBooking<BookingResponse>(bookingId);
     response.status.should.equal(404, JSON.stringify(response.data));
   });
 });
