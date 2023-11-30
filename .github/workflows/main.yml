@@ -1,0 +1,20 @@
+name: CI
+
+on:
+  push:
+    branches: [features/one-step-pipeline]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test
+        uses: actions/setup-node@v1
+        with:
+          node-version: "18.x"
+      - run: npm install
+      - run: npm test
