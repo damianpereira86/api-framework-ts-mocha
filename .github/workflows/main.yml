@@ -29,4 +29,5 @@ jobs:
         run: npm run smoke
 
       - name: Regression Tests
-        run: npm run regression || true
+        run: npm run regression
+        continue-on-error: true
