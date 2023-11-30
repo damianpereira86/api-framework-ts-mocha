@@ -1,8 +1,8 @@
-name: Node.js CI
+name: CI
 
 on:
   push:
-    branches: [features/two-step-pipeline]
+    branches: [main]
   pull_request:
     branches: [main]
 
