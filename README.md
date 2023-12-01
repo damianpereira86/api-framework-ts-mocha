@@ -20,4 +20,4 @@
   * Resolve issues: `npm run prettify` 
 
 # How to use eslint 
-  * `npm run lint`
+  * `npm run lint` 
