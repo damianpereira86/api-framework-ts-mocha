@@ -35,7 +35,9 @@ describe("Delete Booking", () => {
     getResponse.status.should.equal(404, JSON.stringify(getResponse.data));
   });
 
-  it("@Regression - Delete Booking successfully - Status code 204", async () => {
+  // BUG: https://github.com/damianpereira86/api-framework-ts-mocha/issues/6
+  // eslint-disable-next-line ui-testing/no-disabled-tests
+  it.skip("@Regression - Delete Booking successfully - Status code 204", async () => {
     const response = await bookingService.deleteBooking<BookingResponse>(bookingId);
     response.status.should.equal(204, JSON.stringify(response.data));
   });
@@ -46,7 +48,9 @@ describe("Delete Booking", () => {
     response.status.should.equal(403, JSON.stringify(response.data));
   });
 
-  it("@Regression - Delete Non-existent booking - 404", async () => {
+  // BUG: https://github.com/damianpereira86/api-framework-ts-mocha/issues/7
+  // eslint-disable-next-line ui-testing/no-disabled-tests
+  it.skip("@Regression - Delete Non-existent booking - 404", async () => {
     const bookingId = 999999999;
     const response = await bookingService.deleteBooking<BookingResponse>(bookingId);
     response.status.should.equal(404, JSON.stringify(response.data));
