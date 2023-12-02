@@ -10,8 +10,12 @@ export class ServiceBase {
 
   constructor(endpointPath: string) {
     this.api = ApiClient.getInstance();
-    this.url = this.api.baseUrl + endpointPath;
+    this.url = this.baseUrl + endpointPath;
     this.defaultConfig = {};
+  }
+
+  get baseUrl(): string {
+    return process.env["BASEURL"] ?? "";
   }
 
   async Authenticate(): Promise<void> {
