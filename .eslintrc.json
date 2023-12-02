@@ -9,6 +9,7 @@
   ],
   "plugins": ["ui-testing"],
   "rules": {
-    "ui-testing/no-disabled-tests": "error" // default = warn
+    "ui-testing/no-disabled-tests": "error", // default = warn
+    "ui-testing/no-focused-tests": "error" // default = warn
   }
 }
