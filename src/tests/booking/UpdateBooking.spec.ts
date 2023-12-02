@@ -10,7 +10,7 @@ describe("Update Booking", () => {
   let bookingId: number;
 
   before(async () => {
-    await bookingService.Authenticate();
+    await bookingService.authenticate();
   });
 
   beforeEach(async () => {

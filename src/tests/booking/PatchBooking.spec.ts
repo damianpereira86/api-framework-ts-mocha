@@ -10,7 +10,7 @@ describe("Patch Booking", () => {
   let originalBooking: BookingResponse;
 
   before(async () => {
-    await bookingService.Authenticate();
+    await bookingService.authenticate();
   });
 
   beforeEach(async () => {

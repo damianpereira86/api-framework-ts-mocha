@@ -1,7 +1,8 @@
-import { type AxiosRequestConfig } from "axios";
+import { AxiosResponse, type AxiosRequestConfig } from "axios";
 import { ApiClient } from "./ApiClient.js";
 import { type SessionResponse } from "../models/responses/SessionResponse";
 import { AuthService } from "../models/services/AuthService.js";
+import { Response } from "../models/responses/Response";
 
 export class ServiceBase {
   protected api: ApiClient;
@@ -18,7 +19,7 @@ export class ServiceBase {
     return process.env["BASEURL"] ?? "";
   }
 
-  async Authenticate(): Promise<void> {
+  async authenticate(): Promise<void> {
     const authService = new AuthService();
     const response = await authService.signIn<SessionResponse>({
       username: process.env["USER"],
@@ -27,5 +28,29 @@ export class ServiceBase {
     this.defaultConfig = {
       headers: { Cookie: "token=" + response.data.token },
     };
+  }
+
+  protected async get<T>(
+    url: string,
+    config: AxiosRequestConfig = this.defaultConfig,
+  ): Promise<Response<T>> {
+    const startTime = Date.now();
+    const response = await this.api.client.get<T>(url, config);
+    const endTime = Date.now();
+
+    const customResponse: Response<T> = this.buildResponse<T>(endTime, startTime, response);
+    return customResponse;
+  }
+
+  private buildResponse<T>(endTime: number, startTime: number, response: AxiosResponse<T>) {
+    const responseTime = endTime - startTime;
+
+    const customResponse: Response<T> = {
+      data: response.data,
+      status: response.status,
+      headers: response.headers,
+      responseTime: responseTime,
+    };
+    return customResponse;
   }
 }
