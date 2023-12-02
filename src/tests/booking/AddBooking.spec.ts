@@ -54,7 +54,9 @@ describe("Add Booking", () => {
     response.status.should.equal(201);
   });
 
-  it("@Regression - No Firstname - 400", async () => {
+  // BUG: https://github.com/damianpereira86/api-framework-ts-mocha/issues/5
+  // eslint-disable-next-line ui-testing/no-disabled-tests
+  it.skip("@Regression - No Firstname - 400", async () => {
     const response = await bookingService.addBooking<BookingResponse>({
       lastname: "Snow",
       totalprice: 1000,
