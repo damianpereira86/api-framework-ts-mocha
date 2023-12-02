@@ -6,5 +6,9 @@
   "extends": [
       "plugin:@typescript-eslint/recommended",
       "plugin:prettier/recommended"
-  ]
+  ],
+  "plugins": ["ui-testing"],
+  "rules": {
+    "ui-testing/no-disabled-tests": "error" // default = warn
+  }
 }

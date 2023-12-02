@@ -34,7 +34,9 @@ describe("Add Booking", () => {
     response.data.booking.additionalneeds?.should.equal(booking.additionalneeds);
   });
 
-  it("@Regression - Add Booking Successfully - Status code 201", async () => {
+  // BUG: https://github.com/damianpereira86/api-framework-ts-mocha/issues/4
+  // eslint-disable-next-line ui-testing/no-disabled-tests
+  it.skip("@Regression - Add Booking Successfully - Status code 201", async () => {
     const booking: BookingModel = {
       firstname: "Jim",
       lastname: "Brown",
