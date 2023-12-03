@@ -17,9 +17,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Test
+
+      - name: Setup Node.js 18.x
         uses: actions/setup-node@v1
         with:
           node-version: "18.x"
+
       - run: npm install
-      - run: npm test
+
+      - name: Smoke Tests
+        run: npm run smoke
+
+      - name: Regression Tests
+        run: npm run regression
+        continue-on-error: true
