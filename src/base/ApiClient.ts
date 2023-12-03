@@ -15,8 +15,4 @@ export class ApiClient extends ApiClientBase {
 
     return this.classInstance;
   }
-
-  get baseUrl(): string {
-    return process.env["BASEURL"] ?? "";
-  }
 }

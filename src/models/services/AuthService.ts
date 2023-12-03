@@ -8,6 +8,6 @@ export class AuthService extends ServiceBase {
   }
 
   async signIn<T>(credentials: CredentialsModel): Promise<Response<T>> {
-    return await this.api.client.post(this.url, credentials);
+    return await this.post(this.url, credentials);
   }
 }
