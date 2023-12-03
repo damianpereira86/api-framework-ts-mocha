@@ -5,6 +5,7 @@ import { BookingModel } from "../../models/request/BookingModel";
 
 chai.should();
 
+// eslint-disable-next-line ui-testing/no-focused-tests
 describe("Add Booking", () => {
   const bookingService = new BookingService();
 
@@ -32,6 +33,23 @@ describe("Add Booking", () => {
     response.data.booking.bookingdates?.checkin?.should.equal(booking.bookingdates?.checkin);
     response.data.booking.bookingdates?.checkout?.should.equal(booking.bookingdates?.checkout);
     response.data.booking.additionalneeds?.should.equal(booking.additionalneeds);
+  });
+
+  it("@Regression - Add Booking Successfully - Response time < 1000 ms", async () => {
+    const booking: BookingModel = {
+      firstname: "Jim",
+      lastname: "Brown",
+      totalprice: 111,
+      depositpaid: true,
+      bookingdates: {
+        checkin: "2020-01-01",
+        checkout: "2021-01-01",
+      },
+      additionalneeds: "Breakfast",
+    };
+
+    const response = await bookingService.addBooking<BookingResponse>(booking);
+    response.responseTime.should.be.lessThan(1000);
   });
 
   // BUG: https://github.com/damianpereira86/api-framework-ts-mocha/issues/4

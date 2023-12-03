@@ -5,23 +5,22 @@ import chai from "chai";
 
 chai.should();
 
-// eslint-disable-next-line ui-testing/no-focused-tests
-describe.only("Get Booking Ids", () => {
+describe("Get Booking Ids", () => {
   const bookingService = new BookingService();
 
-  it("Get All Booking Ids", async () => {
+  it("@Smoke - Get All Booking Ids", async () => {
     const response = await bookingService.getBookingIds<BookingIdResponse[]>();
     response.status.should.equal(200, JSON.stringify(response.data));
     response.data.length.should.be.greaterThan(1);
   });
 
-  it("Get All Booking Ids - Response time < 1000 ms", async () => {
+  it("@Regression - Get All Booking Ids - Response time < 1000 ms", async () => {
     const response = await bookingService.getBookingIds<BookingIdResponse[]>();
     response.status.should.equal(200, JSON.stringify(response.data));
     response.responseTime.should.be.lessThan(1000);
   });
 
-  it("Get Booking Ids with query parameters - firstname", async () => {
+  it("@Regression - Get Booking Ids with query parameters - firstname", async () => {
     const randomFirstName = "Damian" + Math.random().toString(36).substring(7);
     const booking = await bookingService.addBooking<BookingResponse>({
       firstname: randomFirstName,

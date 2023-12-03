@@ -53,6 +53,23 @@ describe("Update Booking", () => {
     response.data.additionalneeds?.should.equal(booking.additionalneeds);
   });
 
+  it("@Regression - Update Booking successfully - Response time < 1000 ms", async () => {
+    const booking: BookingModel = {
+      firstname: "Jim",
+      lastname: "Brown",
+      totalprice: 111,
+      depositpaid: false,
+      bookingdates: {
+        checkin: "2020-01-01",
+        checkout: "2021-01-01",
+      },
+      additionalneeds: "Lunch",
+    };
+
+    const response = await bookingService.updateBooking<BookingModel>(bookingId, booking);
+    response.responseTime.should.be.lessThan(1000);
+  });
+
   it("@Regression - Unauthorized - 403", async () => {
     const unauthorizedBookingService = new BookingService();
     const response = await unauthorizedBookingService.updateBooking<BookingResponse>(bookingId, {

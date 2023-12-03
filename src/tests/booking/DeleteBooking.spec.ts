@@ -35,6 +35,11 @@ describe("Delete Booking", () => {
     getResponse.status.should.equal(404, JSON.stringify(getResponse.data));
   });
 
+  it("@Regression - Delete Booking successfully - Response time < 1000 ms", async () => {
+    const response = await bookingService.deleteBooking<BookingResponse>(bookingId);
+    response.responseTime.should.be.lessThan(1000);
+  });
+
   // BUG: https://github.com/damianpereira86/api-framework-ts-mocha/issues/6
   // eslint-disable-next-line ui-testing/no-disabled-tests
   it.skip("@Regression - Delete Booking successfully - Status code 204", async () => {

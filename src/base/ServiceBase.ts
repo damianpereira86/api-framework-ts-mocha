@@ -5,7 +5,7 @@ import { AuthService } from "../models/services/AuthService.js";
 import { Response } from "../models/responses/Response";
 
 export class ServiceBase {
-  protected api: ApiClient;
+  private api: ApiClient;
   protected url: string;
   protected defaultConfig: AxiosRequestConfig;
 
@@ -36,6 +36,81 @@ export class ServiceBase {
   ): Promise<Response<T>> {
     const startTime = Date.now();
     const response = await this.api.client.get<T>(url, config);
+    const endTime = Date.now();
+
+    const customResponse: Response<T> = this.buildResponse<T>(endTime, startTime, response);
+    return customResponse;
+  }
+
+  protected async post<T>(
+    url: string,
+    data: unknown,
+    config: AxiosRequestConfig = this.defaultConfig,
+  ): Promise<Response<T>> {
+    const startTime = Date.now();
+    const response = await this.api.client.post<T>(url, data, config);
+    const endTime = Date.now();
+
+    const customResponse: Response<T> = this.buildResponse<T>(endTime, startTime, response);
+    return customResponse;
+  }
+
+  protected async put<T>(
+    url: string,
+    data: unknown,
+    config: AxiosRequestConfig = this.defaultConfig,
+  ): Promise<Response<T>> {
+    const startTime = Date.now();
+    const response = await this.api.client.put<T>(url, data, config);
+    const endTime = Date.now();
+
+    const customResponse: Response<T> = this.buildResponse<T>(endTime, startTime, response);
+    return customResponse;
+  }
+
+  protected async patch<T>(
+    url: string,
+    data: unknown,
+    config: AxiosRequestConfig = this.defaultConfig,
+  ): Promise<Response<T>> {
+    const startTime = Date.now();
+    const response = await this.api.client.patch<T>(url, data, config);
+    const endTime = Date.now();
+
+    const customResponse: Response<T> = this.buildResponse<T>(endTime, startTime, response);
+    return customResponse;
+  }
+
+  protected async delete<T>(
+    url: string,
+    config: AxiosRequestConfig = this.defaultConfig,
+  ): Promise<Response<T>> {
+    const startTime = Date.now();
+    const response = await this.api.client.delete<T>(url, config);
+    const endTime = Date.now();
+
+    const customResponse: Response<T> = this.buildResponse<T>(endTime, startTime, response);
+    return customResponse;
+  }
+
+  protected async head<T>(
+    url: string,
+    config: AxiosRequestConfig = this.defaultConfig,
+  ): Promise<Response<T>> {
+    const startTime = Date.now();
+    const response = await this.api.client.head<T>(url, config);
+    const endTime = Date.now();
+
+    const customResponse: Response<T> = this.buildResponse<T>(endTime, startTime, response);
+    return customResponse;
+  }
+
+  protected async options<T>(
+    url: string,
+    config: AxiosRequestConfig = this.defaultConfig,
+  ): Promise<Response<T>> {
+    const startTime = Date.now();
+    const response = await this.api.client.options<T>(url, config);
     const endTime = Date.now();
 
     const customResponse: Response<T> = this.buildResponse<T>(endTime, startTime, response);

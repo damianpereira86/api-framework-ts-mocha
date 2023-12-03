@@ -52,6 +52,18 @@ describe("Patch Booking", () => {
     response.data.additionalneeds?.should.equal(originalBooking.booking.additionalneeds);
   });
 
+  it("@Regression - Partially Update Booking successfully - Response time < 1000 ms", async () => {
+    const patchedBooking: BookingModel = {
+      firstname: "Jim",
+    };
+
+    const response = await bookingService.partialUpdateBooking<BookingModel>(
+      originalBooking.bookingid,
+      patchedBooking,
+    );
+    response.responseTime.should.be.lessThan(1000);
+  });
+
   it("@Regression - Unauthorized - 403", async () => {
     const unauthorizedBookingService = new BookingService();
     const response = await unauthorizedBookingService.partialUpdateBooking<BookingResponse>(
