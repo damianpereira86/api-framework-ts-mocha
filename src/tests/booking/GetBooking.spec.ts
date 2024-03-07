@@ -19,7 +19,7 @@ describe("Get Booking", () => {
         checkout: "2024-02-01",
       },
       additionalneeds: "Breakfast",
-    });
+    })
 
     const bookingId = booking.data.bookingid;
 
