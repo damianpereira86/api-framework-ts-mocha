@@ -10,7 +10,7 @@ describe("Patch Booking", () => {
   let originalBooking: BookingResponse;
 
   before(async () => {
-    await bookingService.Authenticate();
+    await bookingService.authenticate();
   });
 
   beforeEach(async () => {
@@ -52,6 +52,18 @@ describe("Patch Booking", () => {
     response.data.additionalneeds?.should.equal(originalBooking.booking.additionalneeds);
   });
 
+  it("@Regression - Partially Update Booking successfully - Response time < 1000 ms", async () => {
+    const patchedBooking: BookingModel = {
+      firstname: "Jim",
+    };
+
+    const response = await bookingService.partialUpdateBooking<BookingModel>(
+      originalBooking.bookingid,
+      patchedBooking,
+    );
+    response.responseTime.should.be.lessThan(1000);
+  });
+
   it("@Regression - Unauthorized - 403", async () => {
     const unauthorizedBookingService = new BookingService();
     const response = await unauthorizedBookingService.partialUpdateBooking<BookingResponse>(
@@ -72,7 +84,9 @@ describe("Patch Booking", () => {
     response.status.should.equal(403, JSON.stringify(response.data));
   });
 
-  it("@Regression - Partially Update Non-existent booking - 404", async () => {
+  // BUG: https://github.com/damianpereira86/api-framework-ts-mocha/issues/8
+  // eslint-disable-next-line ui-testing/no-disabled-tests
+  it.skip("@Regression - Partially Update Non-existent booking - 404", async () => {
     const bookingId = 999999999;
     const response = await bookingService.partialUpdateBooking<BookingResponse>(bookingId, {
       firstname: "John",

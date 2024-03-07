@@ -12,15 +12,15 @@ export class BookingService extends ServiceBase {
     config = this.defaultConfig,
   ): Promise<Response<T>> {
     config.params = params;
-    return await this.api.client.get(this.url, config);
+    return await this.get<T>(this.url, config);
   }
 
   async getBooking<T>(id: unknown, config = this.defaultConfig): Promise<Response<T>> {
-    return await this.api.client.get(`${this.url}/${id}`, config);
+    return await this.get<T>(`${this.url}/${id}`, config);
   }
 
   async addBooking<T>(booking: BookingModel, config = this.defaultConfig): Promise<Response<T>> {
-    return await this.api.client.post(this.url, booking, config);
+    return await this.post(this.url, booking, config);
   }
 
   async updateBooking<T>(
@@ -28,7 +28,7 @@ export class BookingService extends ServiceBase {
     booking: BookingModel,
     config = this.defaultConfig,
   ): Promise<Response<T>> {
-    return await this.api.client.put(`${this.url}/${id}`, booking, config);
+    return await this.put(`${this.url}/${id}`, booking, config);
   }
 
   async partialUpdateBooking<T>(
@@ -36,10 +36,10 @@ export class BookingService extends ServiceBase {
     booking: BookingModel,
     config = this.defaultConfig,
   ): Promise<Response<T>> {
-    return await this.api.client.patch(`${this.url}/${id}`, booking, config);
+    return await this.patch(`${this.url}/${id}`, booking, config);
   }
 
   async deleteBooking<T>(id: unknown, config = this.defaultConfig): Promise<Response<T>> {
-    return await this.api.client.delete(`${this.url}/${id}`, config);
+    return await this.delete(`${this.url}/${id}`, config);
   }
 }

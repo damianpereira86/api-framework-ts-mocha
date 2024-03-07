@@ -10,7 +10,7 @@ describe("Update Booking", () => {
   let bookingId: number;
 
   before(async () => {
-    await bookingService.Authenticate();
+    await bookingService.authenticate();
   });
 
   beforeEach(async () => {
@@ -53,6 +53,23 @@ describe("Update Booking", () => {
     response.data.additionalneeds?.should.equal(booking.additionalneeds);
   });
 
+  it("@Regression - Update Booking successfully - Response time < 1000 ms", async () => {
+    const booking: BookingModel = {
+      firstname: "Jim",
+      lastname: "Brown",
+      totalprice: 111,
+      depositpaid: false,
+      bookingdates: {
+        checkin: "2020-01-01",
+        checkout: "2021-01-01",
+      },
+      additionalneeds: "Lunch",
+    };
+
+    const response = await bookingService.updateBooking<BookingModel>(bookingId, booking);
+    response.responseTime.should.be.lessThan(1000);
+  });
+
   it("@Regression - Unauthorized - 403", async () => {
     const unauthorizedBookingService = new BookingService();
     const response = await unauthorizedBookingService.updateBooking<BookingResponse>(bookingId, {
@@ -69,7 +86,9 @@ describe("Update Booking", () => {
     response.status.should.equal(403, JSON.stringify(response.data));
   });
 
-  it("@Regression - Update Non-existent booking - 404", async () => {
+  // BUG: https://github.com/damianpereira86/api-framework-ts-mocha/issues/9
+  // eslint-disable-next-line ui-testing/no-disabled-tests
+  it.skip("@Regression - Update Non-existent booking - 404", async () => {
     const bookingId = 999999999;
     const response = await bookingService.updateBooking<BookingResponse>(bookingId, {
       firstname: "John",
