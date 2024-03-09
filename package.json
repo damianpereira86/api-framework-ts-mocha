@@ -1,7 +1,7 @@
 {
   "name": "example",
   "version": "1.0.0",
-  "description": "",
+  "description": "TypeScript API automation framework that does its job in a simple but effective way",
   "main": "index.js",
   "scripts": {
     "test": "mocha src/**/*.spec.ts --timeout 10000",
@@ -12,7 +12,7 @@
     "prettify": "prettier --write src"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/chai": "^4.3.1",
     "@types/expect": "^24.3.0",
