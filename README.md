@@ -1,5 +1,3 @@
-# Readme
-
 # API Automation Framework (TS+Mocha)
 
 TypeScript API automation framework that does its job in a simple but effective way. It is designed to work with HTTP APIs but can be adapted to work with other protocols.
