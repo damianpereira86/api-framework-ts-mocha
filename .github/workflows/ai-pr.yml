@@ -40,4 +40,4 @@ jobs:
           ./node_modules/.bin/mocha ./src/tests --reporter json --dry-run > testStructure.json
           node ./.github/workflows/transformTestData.js
       - name: Display Test Structure
-        run: cat testStructure.json
+        run: cat groupedTestStructure.json
