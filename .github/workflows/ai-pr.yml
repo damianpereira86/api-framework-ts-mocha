@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [features/run-pr-with-ai]
+
+env:
+  BASEURL: ${{ vars.BASEURL }}
+  USER: ${{ secrets.USER }}
+  PASSWORD: ${{ secrets.PASSWORD }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Extract Automation Value
+        id: extract_value
+        run: |
+          PR_BODY=$(jq -r .pull_request.body $GITHUB_EVENT_PATH)
+          AUTOMATION_VALUE=$(echo "$PR_BODY" | grep -oP '(?<=Automation: ).*')
+          echo "Automation value: $AUTOMATION_VALUE"
+          echo "::set-output name=automation_value::$AUTOMATION_VALUE"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Use Automation Value
+        run: echo "The extracted automation value is ${{ steps.extract_value.outputs.automation_value }}"
+
+      - name: Test
+        uses: actions/setup-node@v1
+        with:
+          node-version: "18.x"
+      - run: npm install
+      - run: npm run lint
+      - run: npm test
