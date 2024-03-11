@@ -27,7 +27,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Use Automation Value
-        run: echo "The extracted automation value is ${{ steps.extract_value.outputs.automation_value }}"
+        run: echo "Extracted automation value is ${{ steps.extract_value.outputs.automation_value }}"
 
       - name: Test
         uses: actions/setup-node@v1
