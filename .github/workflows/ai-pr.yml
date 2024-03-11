@@ -33,7 +33,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Use Automation Value
-        run: echo "The extracted automation value is $AUTOMATION_VALUE"
+        run: echo "Extracted automation value is $AUTOMATION_VALUE"
 
       - name: Extract and Group Test Suites and Names
         run: |
