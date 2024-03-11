@@ -21,13 +21,12 @@ jobs:
         run: |
           PR_BODY=$(jq -r .pull_request.body $GITHUB_EVENT_PATH)
           AUTOMATION_VALUE=$(echo "$PR_BODY" | grep -oP '(?<=Automation: ).*')
-          echo "Automation value: $AUTOMATION_VALUE"
-          echo "::set-output name=automation_value::$AUTOMATION_VALUE"
+          echo "AUTOMATION_VALUE=$AUTOMATION_VALUE" >> $GITHUB_ENV
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Use Automation Value
-        run: echo "The extracted automation value is ${{ steps.extract_value.outputs.automation_value }}"
+        run: echo "The extracted automation value is $AUTOMATION_VALUE"
 
       - name: Test
         uses: actions/setup-node@v1
