@@ -17,7 +17,7 @@ const response = await axios.post(apiEndpoint, payload, {
   },
 });
 
-const responseData = await response.json();
+const responseData = response.data;
 
 console.log(responseData);
 const regexPattern = /^Regex: (.*)$/;
