@@ -2,7 +2,7 @@ import fs from "fs";
 import axios from "axios";
 
 const automationValue = process.env.AUTOMATION_VALUE;
-const tests = JSON.parse(fs.readFileSync("testsGroupedBySuite.json", "utf8"));
+const tests = JSON.parse(fs.readFileSync("groupedTestStructure.json", "utf8"));
 
 const payload = {
   tests: tests,
