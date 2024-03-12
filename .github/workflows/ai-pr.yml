@@ -32,12 +32,19 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Use Automation Value
+      - name: Display Automation Value
         run: echo "The extracted automation value is $AUTOMATION_VALUE"
 
       - name: Extract and Group Test Suites and Names
         run: |
           ./node_modules/.bin/mocha ./src/tests --reporter json --dry-run > testStructure.json
           node ./.github/workflows/transformTestData.js
+
       - name: Display Test Structure
         run: cat groupedTestStructure.json
+
+      - name: Call API with Test Data
+        run: node ./.github/workflows/callApi.js
+
+      - name: Test
+        run: ./node_modules/.bin/mocha --grep $USER_REQUIREMENT
