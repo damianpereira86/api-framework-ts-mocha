@@ -28,14 +28,15 @@ jobs:
         id: extract_value
         run: |
           PR_BODY=$(jq -r .pull_request.body $GITHUB_EVENT_PATH)
-          AUTOMATION_VALUE=$(echo "$PR_BODY" | grep -oP '(?<=Automation: ).*' || echo "")
+          AUTOMATION_VALUE=$(echo "$PR_BODY" | grep -oP '(?<=Automation: ).*' | tr -d '\n' || echo "")
+          AUTOMATION_VALUE=$(echo "$AUTOMATION_VALUE" | xargs) # This trims leading and trailing whitespace
           if [ -z "$AUTOMATION_VALUE" ]; then
             echo "AUTOMATION_VALUE=''" >> $GITHUB_ENV
           else
             echo "AUTOMATION_VALUE='$AUTOMATION_VALUE'" >> $GITHUB_ENV
           fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Display Automation Value
         if: env.AUTOMATION_VALUE != ''
