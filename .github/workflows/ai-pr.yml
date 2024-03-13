@@ -35,8 +35,8 @@ jobs:
           else
             echo "AUTOMATION_VALUE='$AUTOMATION_VALUE'" >> $GITHUB_ENV
           fi
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Display Automation Value
         if: env.AUTOMATION_VALUE != ''
