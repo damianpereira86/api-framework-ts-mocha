@@ -39,7 +39,7 @@ jobs:
 
       - name: Display Automation Value
         if: env.AUTOMATION_VALUE != ''
-        run: echo "The extracted automation value is $AUTOMATION_VALUE"
+        run: echo "Extracted automation value is $AUTOMATION_VALUE"
 
       - name: Extract and Group Test Suites and Names
         if: env.AUTOMATION_VALUE != ''
