@@ -31,7 +31,7 @@ jobs:
           AUTOMATION_VALUE=$(echo "$PR_BODY" | grep -oP '(?<=Automation: ).*' | tr -d '\n' || echo "")
           AUTOMATION_VALUE=$(echo "$AUTOMATION_VALUE" | xargs) # This trims leading and trailing whitespace
           if [ -z "$AUTOMATION_VALUE" ]; then
-            echo "AUTOMATION_VALUE='NULL'" >> $GITHUB_ENV
+            echo "AUTOMATION_VALUE=" >> $GITHUB_ENV
           else
             echo "AUTOMATION_VALUE='$AUTOMATION_VALUE'" >> $GITHUB_ENV
           fi
@@ -39,27 +39,27 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Display Automation Value
-        if: env.AUTOMATION_VALUE != 'NULL'
+        if: env.AUTOMATION_VALUE != ''
         run: echo "The extracted automation value is $AUTOMATION_VALUE"
 
       - name: Extract and Group Test Suites and Names
-        if: env.AUTOMATION_VALUE != 'NULL'
+        if: env.AUTOMATION_VALUE != ''
         run: |
           ./node_modules/.bin/mocha ./src/tests --reporter json --dry-run > testStructure.json
           node ./.github/workflows/transformTestData.js
 
       - name: Display Test Structure
-        if: env.AUTOMATION_VALUE != 'NULL'
+        if: env.AUTOMATION_VALUE != ''
         run: cat groupedTestStructure.json
 
       - name: Call API with Test Data
-        if: env.AUTOMATION_VALUE != 'NULL'
+        if: env.AUTOMATION_VALUE != ''
         run: node ./.github/workflows/callApi.js
 
       - name: Run Requested Tests
-        if: env.AUTOMATION_VALUE != 'NULL'
+        if: env.AUTOMATION_VALUE != ''
         run: ./node_modules/.bin/mocha --grep "$USER_REQUIREMENT"
 
       - name: Run All Tests
-        if: env.AUTOMATION_VALUE == 'NULL'
+        if: env.AUTOMATION_VALUE == ''
         run: npm test
