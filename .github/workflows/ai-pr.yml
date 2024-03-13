@@ -37,7 +37,7 @@ jobs:
           else
             echo "USER_REQUIREMENT='$USER_REQUIREMENT'" >> $GITHUB_ENV
           fi        
-          echo "The extracted automation value is $USER_REQUIREMENT"
+          echo "Extracted automation value is $USER_REQUIREMENT"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
