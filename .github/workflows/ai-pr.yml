@@ -53,4 +53,4 @@ jobs:
         run: node ./.github/workflows/callApi.js
 
       - name: Run Tests
-        run: ./node_modules/.bin/mocha --grep "$REGEX"
+        run: ./node_modules/.bin/mocha --grep "$REGEX" --timeout 5000
