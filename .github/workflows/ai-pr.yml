@@ -37,7 +37,7 @@ jobs:
           else
             echo "USER_REQUIREMENT='$USER_REQUIREMENT'" >> $GITHUB_ENV
           fi        
-          echo "The extracted automation value is $USER_REQUIREMENT"
+          echo "The extracted user requirement is $USER_REQUIREMENT"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -53,4 +53,4 @@ jobs:
         run: node ./.github/workflows/callApi.js
 
       - name: Run Tests
-        run: ./node_modules/.bin/mocha --grep "$USER_REQUIREMENT"
+        run: ./node_modules/.bin/mocha --grep "$REGEX"
