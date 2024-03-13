@@ -22,44 +22,35 @@ jobs:
         with:
           node-version: "18.x"
       - run: npm install
-      - run: npm run lint
 
-      - name: Extract Automation Value
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Extract User Requirement
         id: extract_value
         run: |
           PR_BODY=$(jq -r .pull_request.body $GITHUB_EVENT_PATH)
-          AUTOMATION_VALUE=$(echo "$PR_BODY" | grep -oP '(?<=Automation: ).*' | tr -d '\n' || echo "")
-          AUTOMATION_VALUE=$(echo "$AUTOMATION_VALUE" | xargs) # This trims leading and trailing whitespace
-          if [ -z "$AUTOMATION_VALUE" ]; then
-            echo "AUTOMATION_VALUE=" >> $GITHUB_ENV
+          USER_REQUIREMENT=$(echo "$PR_BODY" | grep -oP '(?<=Automation: ).*' | tr -d '\r\n' || echo "")
+          USER_REQUIREMENT=$(echo "$USER_REQUIREMENT" | xargs)
+          if [ -z "$USER_REQUIREMENT" ]; then
+            echo "USER_REQUIREMENT='.*'" >> $GITHUB_ENV
           else
-            echo "AUTOMATION_VALUE='$AUTOMATION_VALUE'" >> $GITHUB_ENV
-          fi
+            echo "USER_REQUIREMENT='$USER_REQUIREMENT'" >> $GITHUB_ENV
+          fi        
+          echo "The extracted automation value is $USER_REQUIREMENT"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Display Automation Value
-        if: env.AUTOMATION_VALUE != ''
-        run: echo "The extracted automation value is $AUTOMATION_VALUE"
-
       - name: Extract and Group Test Suites and Names
-        if: env.AUTOMATION_VALUE != ''
+        if: env.USER_REQUIREMENT != '.*'
         run: |
           ./node_modules/.bin/mocha ./src/tests --reporter json --dry-run > testStructure.json
           node ./.github/workflows/transformTestData.js
+          cat groupedTestStructure.json
 
-      - name: Display Test Structure
-        if: env.AUTOMATION_VALUE != ''
-        run: cat groupedTestStructure.json
-
-      - name: Call API with Test Data
-        if: env.AUTOMATION_VALUE != ''
+      - name: Call API
+        if: env.USER_REQUIREMENT != '.*'
         run: node ./.github/workflows/callApi.js
 
-      - name: Run Requested Tests
-        if: env.AUTOMATION_VALUE != ''
+      - name: Run Tests
         run: ./node_modules/.bin/mocha --grep "$USER_REQUIREMENT"
-
-      - name: Run All Tests
-        if: env.AUTOMATION_VALUE == ''
-        run: npm test
