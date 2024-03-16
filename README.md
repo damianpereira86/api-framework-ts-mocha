@@ -302,7 +302,7 @@ For more detailed examples and advanced features, refer to the [GitHub Actions D
 
 ## Extensions
 
-This framework has been extended in teh past with different features such as:
+This framework has been extended in the past with different features such as:
 
 - Reporter
 - Schema validation
