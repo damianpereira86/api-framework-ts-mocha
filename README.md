@@ -227,21 +227,41 @@ This makes adding simple but powerful performance checks to your API automation 
 
 ## Authentication
 
-Authentication will depend on the method required by the API, but most of the time will end up as tokens in the request headers. 
+The authentication process depends on the method required by the API, but in most cases, it involves sending tokens in the request headers.
 
-The API used in this repo uses an /authenticate endpoint to get the token that then is sent in the request headers as a cookie. I added a method to the ServiceBase class to be able to easily authenticate to this API.
+In this repository, the API uses an `/auth` endpoint to obtain a token, which is then sent in the request headers as a cookie. To streamline this process, I’ve added an `authenticate()` method in the `ServiceBase` class, making it easy to authenticate with the API.
 
-```tsx
+Additionally, the token is cached so that subsequent calls to `authenticate()` from any service do not result in unnecessary requests to the server.
+
+Here’s the implementation of the `authenticate()` method:
+
+```typescript
 async authenticate(): Promise<void> {
-    const authService = new AuthService();
-    const response = await authService.signIn<SessionResponse>({
-      username: process.env["USER"],
-      password: process.env["PASSWORD"],
-    });
-    this.defaultConfig = {
-      headers: { Cookie: "token=" + response.data.token },
-    };
+  const username = process.env["USER"];
+  const password = process.env["PASSWORD"];
+
+  if (!username || !password) {
+    throw new Error("Missing username or password in environment variables.");
   }
+
+  const cachedToken = SessionManager.getCachedToken(username, password);
+
+  if (cachedToken) {
+    this.defaultConfig = {
+      headers: { Cookie: "token=" + cachedToken },
+    };
+    return;
+  }
+
+  const credentials: CredentialsModel = { username, password };
+  const response = await this.post<SessionResponse>(`${this.baseUrl}/auth`, credentials);
+
+  SessionManager.storeToken(username, password, response.data.token);
+
+  this.defaultConfig = {
+    headers: { Cookie: "token=" + response.data.token },
+  };
+}
 ```
 
 Then you can use it on the services that require authentication, like in the before hook below.

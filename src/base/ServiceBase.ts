@@ -1,8 +1,9 @@
 import { AxiosResponse, type AxiosRequestConfig } from "axios";
 import { ApiClient } from "./ApiClient.js";
 import { type SessionResponse } from "../models/responses/SessionResponse";
-import { AuthService } from "../models/services/AuthService.js";
 import { Response } from "../models/responses/Response";
+import { CredentialsModel } from "../models/request/CredentialsModel.js";
+import { SessionManager } from "./SessionManager.js";
 
 export class ServiceBase {
   private api: ApiClient;
@@ -20,11 +21,30 @@ export class ServiceBase {
   }
 
   async authenticate(): Promise<void> {
-    const authService = new AuthService();
-    const response = await authService.signIn<SessionResponse>({
-      username: process.env["USER"],
-      password: process.env["PASSWORD"],
-    });
+    const username = process.env["USER"];
+    const password = process.env["PASSWORD"];
+
+    if (!username || !password) {
+      throw new Error("Missing username or password in environment variables.");
+    }
+
+    const cachedToken = SessionManager.getCachedToken(username, password);
+
+    if (cachedToken) {
+      this.defaultConfig = {
+        headers: { Cookie: "token=" + cachedToken },
+      };
+      return;
+    }
+
+    const credentials: CredentialsModel = {
+      username,
+      password,
+    };
+    const response = await this.post<SessionResponse>(`${this.baseUrl}/auth`, credentials);
+
+    SessionManager.storeToken(username, password, response.data.token);
+
     this.defaultConfig = {
       headers: { Cookie: "token=" + response.data.token },
     };
