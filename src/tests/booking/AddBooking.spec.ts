@@ -5,7 +5,6 @@ import { BookingModel } from "../../models/request/BookingModel";
 
 chai.should();
 
-// eslint-disable-next-line ui-testing/no-focused-tests
 describe("Add Booking", () => {
   const bookingService = new BookingService();
 
