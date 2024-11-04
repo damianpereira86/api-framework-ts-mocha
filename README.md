@@ -305,6 +305,10 @@ Check the [Actions](https://github.com/damianpereira86/api-framework-ts-mocha/ac
 
 ![Pipeline](./images/cicd.png)
 
+Ensure that you configure any necessary environment variables and secrets. These can be managed in the repository’s **Settings** under **Secrets and variables**.
+1. Repository Variables: Go to Settings > Secrets and variables > Actions > Variables. (e.g., BASEURL)
+2. Repository Secrets: Go to Settings > Secrets and variables > Actions > Secrets.(e.g., USER and PASSWORD)
+
 You can customize the CI/CD pipeline to suit your project's needs. For example, you can adjust which branches trigger the pipeline, add steps for deployment, or configure notifications.
 
 To get started with GitHub Actions in your project, check out the `.github/workflows` directory in this repository. Here, you'll find the workflow files that define our CI/CD processes. You can modify these files to change the pipeline or add new workflows.
