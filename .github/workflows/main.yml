@@ -15,6 +15,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+
     steps:
       - uses: actions/checkout@v2
       - name: Test
@@ -23,4 +24,4 @@ jobs:
           node-version: "18.x"
       - run: npm install
       - run: npm run lint
-      - run: npm test
+      - run: npm run test:parallel
