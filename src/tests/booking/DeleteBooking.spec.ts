@@ -1,6 +1,6 @@
 import { BookingService } from "../../models/services/BookingService.js";
 import { BookingResponse } from "../../models/responses/BookingResponse.js";
-import chai from "chai";
+import * as chai from "chai";
 
 chai.should();
 

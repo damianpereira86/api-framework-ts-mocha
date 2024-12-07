@@ -1,6 +1,6 @@
 import { type SessionResponse } from "../../models/responses/SessionResponse";
 import { AuthService } from "../../models/services/AuthService.js";
-import chai from "chai";
+import * as chai from "chai";
 
 chai.should();
 

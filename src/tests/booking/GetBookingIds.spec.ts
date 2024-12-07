@@ -1,7 +1,7 @@
 import { BookingResponse } from "../../models/responses/BookingResponse";
 import type { BookingIdResponse } from "../../models/responses/BookingIdResponse";
 import { BookingService } from "../../models/services/BookingService.js";
-import chai from "chai";
+import * as chai from "chai";
 
 chai.should();
 
