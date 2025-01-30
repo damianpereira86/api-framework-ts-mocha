@@ -19,13 +19,16 @@ export class BookingService extends ServiceBase {
     return await this.get<T>(`${this.url}/${id}`, config);
   }
 
-  async addBooking<T>(booking: BookingModel, config = this.defaultConfig): Promise<Response<T>> {
+  async addBooking<T>(
+    booking: BookingModel | any,
+    config = this.defaultConfig,
+  ): Promise<Response<T>> {
     return await this.post(this.url, booking, config);
   }
 
   async updateBooking<T>(
     id: unknown,
-    booking: BookingModel,
+    booking: BookingModel | any,
     config = this.defaultConfig,
   ): Promise<Response<T>> {
     return await this.put(`${this.url}/${id}`, booking, config);
@@ -33,7 +36,7 @@ export class BookingService extends ServiceBase {
 
   async partialUpdateBooking<T>(
     id: unknown,
-    booking: BookingModel,
+    booking: BookingModel | any,
     config = this.defaultConfig,
   ): Promise<Response<T>> {
     return await this.patch(`${this.url}/${id}`, booking, config);
