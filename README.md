@@ -90,7 +90,7 @@ npm run lint
 ### Prettier
 
 Prettier is configured to run with eslint and to format the code on each save. 
-In case you want run it separately use the folowing scripts:
+In case you want to run it separately use the following scripts:
 
 - Check for issues:
     
@@ -223,7 +223,7 @@ it("@Regression - Get Booking successfully - Response time < 1000 ms", async () 
   });
 ```
 
-This makes adding simple but powerful performance checks to your API automation suite very easy.
+This makes adding simple but powerful performance checks to your API automation suite easy.
 
 ## Authentication
 
@@ -313,7 +313,7 @@ You can customize the CI/CD pipeline to suit your project's needs. For example, 
 
 To get started with GitHub Actions in your project, check out the `.github/workflows` directory in this repository. Here, you'll find the workflow files that define our CI/CD processes. You can modify these files to change the pipeline or add new workflows.
 
-See branch `features/two-step-pipeline` as an example of a pipeline that do the following:
+See branch `features/two-step-pipeline` as an example of a pipeline that does the following:
 1. Runs the Smoke tests, and fails in case any test fails, 
 2. Runs the Regression tests, that do not make the pipeline fail.
 
@@ -326,7 +326,7 @@ For more detailed examples and advanced features, refer to the [GitHub Actions D
 
 ## Extensions
 
-This framework has been extended in teh past with different features such as:
+This framework has been extended in the past with different features such as:
 
 - Reporter
 - Schema validation
@@ -334,7 +334,7 @@ This framework has been extended in teh past with different features such as:
 - Database integration
 - And so on...
 
-But each of them depends on the project needs, the tools of choice, etc. Hence, I’ll be adding examples of possible extensions that could be useful for some of you, while leaving this repo as light and starightforward as possible.
+But each of them depends on the project needs, the tools of choice, etc. Hence, I’ll be adding examples of possible extensions that could be useful for some of you, while leaving this repo as light and straightforward as possible.
 
 ## Next steps
 
