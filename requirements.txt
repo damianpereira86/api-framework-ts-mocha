@@ -1,0 +1,5 @@
+pytest
+requests
+python-dotenv
+flake8
+black
