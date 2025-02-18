@@ -1,18 +1,20 @@
-# API Automation Framework (TS+Mocha)
+# API Automation Framework (Python+Pytest)
 
-TypeScript API automation framework that does its job in a simple but effective way. It is designed to work with HTTP APIs but can be adapted to work with other protocols.
+Python API automation framework that does its job in a simple but effective way. It is designed to work with HTTP APIs but can be adapted to work with other protocols.
 
 Libraries used:
 
-- Mocha - Test Runner
-- Axios - HTTP client
-- Chai - Assertions
+- Pytest - Test Runner
+- Requests - HTTP client
+- Python-dotenv - Environment management with .env files
+- Flake8 - Linting
+- Black - Formatting
 
 This example uses the [Restful-booker](https://restful-booker.herokuapp.com/apidoc/index.html) API for demonstration purposes.
 
 ## Setup
 
-Before you begin, make sure you have Node.js installed on your machine.
+Before you begin, make sure you have Python installed on your machine.
 
 ### Preparing your Environment
 
@@ -23,7 +25,7 @@ Before starting with the setup, ensure you have a local copy of the repository. 
    ```bash
    git clone https://github.com/damianpereira86/api-framework-ts-mocha.git
 
-2. Navigate to the project directory on your terminal. This is where the `package.json` file is located.
+2. Navigate to the project directory on your terminal. This is where the `requirements.txt` file is located.
 
     ```bash
     cd api-framework-ts-mocha
@@ -32,7 +34,7 @@ Before starting with the setup, ensure you have a local copy of the repository. 
 3. Install the necessary dependencies by running the following command in the root folder:
 
     ```bash
-    npm install
+    pip install -r requirements.txt
     ```
 
 ### Setting up your local environment
@@ -62,8 +64,8 @@ However, it is crucial to **never** commit these values or your personal environ
 
 Three VS Code extensions are recommended for this project. 
 
-- Eslint (dbaeumer.vscode-eslint): Linter
-- Prettier (esbenp.prettier-vscode): Code formatter
+- Flake8 (ms-python.flake8): Linter
+- Black (ms-python.black-formatter): Code formatter
 - TODO Highlight (jgclark.vscode-todo-highlight): Bug management
 
 They will be recommended to the user on the setup since they are set as recommendations on the extension.json file.
@@ -72,36 +74,36 @@ They will be recommended to the user on the setup since they are set as recommen
 
 ```bash
 # Runs all tests
-npm test
+pytest
 
 # Runs tests by tag
-npm run smoke
-npm run regression
+pytest -m smoke
+pytest -m regression
 ```
 
-### Eslint
+### Flake8
 
-You can use eslint with the help of the VS Code extension and with the following script.
+You can use flake8 with the help of the VS Code extension and with the following script.
 
 ```bash
-npm run lint
+flake8
 ```
 
-### Prettier
+### Black
 
-Prettier is configured to run with eslint and to format the code on each save. 
+Black is configured to run with flake8 and to format the code on each save. 
 In case you want to run it separately use the following scripts:
 
 - Check for issues:
     
     ```bash
-    npm run prettier:check
+    black --check .
     ```
     
 - Resolve issues:
     
     ```bash
-    npm run prettify
+    black .
     ```
     
 ## Getting started
@@ -129,18 +131,15 @@ When you create a Service Model, you extend `ServiceBase` and define methods spe
 
 Here's a simple example of a service model:
 
-```tsx
-import { ServiceBase } from './ServiceBase'; // Import the base class
+```python
+from src.base.ServiceBase import ServiceBase
 
-export class BookingService extends ServiceBase {
-  constructor() {
-    super("/booking"); // Set the endpoint path
-  }
+class BookingService(ServiceBase):
+    def __init__(self):
+        super().__init__("/booking")
 
-  async getBooking<T>(id: number, config = this.defaultConfig): Promise<Response<T>> {
-    return await this.get<T>(`${this.url}/${id}`, config); // Use the inherited GET method
-  }
-}
+    def get_booking(self, id, config=None):
+        return self.get(f"{self.url}/{id}", config)
 ```
 
 By extending ServiceBase, BookingService gains all the functionalities of making HTTP requests, handling authentication, and standardizing responses, allowing you to focus on the logic specific to the Booking service.
@@ -149,78 +148,76 @@ By extending ServiceBase, BookingService gains all the functionalities of making
 
 In addition to **Service Models**, you should declare **Request** and **Response** models as needed. For example, here is the BookingModel that will be used to deserialize the response from the endpoint above.
 
-```tsx
-export interface BookingModel {
-  id?: number | undefined;
-  firstname?: string | undefined;
-  lastname?: string | undefined;
-  totalprice?: number | undefined;
-  depositpaid?: boolean | undefined;
-  bookingdates?: {
-    checkin?: string | undefined;
-    checkout?: string | undefined;
-  };
-  additionalneeds?: string | undefined;
-}
+```python
+class BookingModel:
+    def __init__(self, id=None, firstname=None, lastname=None, totalprice=None, depositpaid=None, bookingdates=None, additionalneeds=None):
+        self.id = id
+        self.firstname = firstname
+        self.lastname = lastname
+        self.totalprice = totalprice
+        self.depositpaid = depositpaid
+        self.bookingdates = bookingdates
+        self.additionalneeds = additionalneeds
 ```
 
 ## Tests
 
 Next, you can create a simple test like this. 
 
-```tsx
-describe("Get Booking", () => {
-  const bookingService = new BookingService();
+```python
+import pytest
+from src.models.services.BookingService import BookingService
 
-  it("@Smoke - Get Booking successfully - 200", async () => {
-    const bookingId = 123456;
-    const response = await bookingService.getBooking<BookingModel>(bookingId);
-    response.status.should.equal(200, JSON.stringify(response.data));
-  });
+@pytest.fixture
+def booking_service():
+    return BookingService()
+
+def test_get_booking_successfully(booking_service):
+    booking_id = 123456
+    response = booking_service.get_booking(booking_id)
+    assert response.status == 200
 ```
 
-Note the BookingModel on the generic getBooking function. With that in place, you can easily assert against the response body properties.
+Note the BookingModel on the generic get_booking function. With that in place, you can easily assert against the response body properties.
 
-```tsx
-it("@Smoke - Get Booking successfully - 200", async () => {
-    const booking = await bookingService.addBooking<BookingResponse>({
-      firstname: "Damian",
-      lastname: "Pereira",
-      totalprice: 1000,
-      depositpaid: true,
-      bookingdates: {
-        checkin: "2024-01-01",
-        checkout: "2024-02-01",
-      },
-      additionalneeds: "Breakfast",
-    });
+```python
+def test_get_booking_successfully(booking_service):
+    booking = booking_service.add_booking({
+        "firstname": "Damian",
+        "lastname": "Pereira",
+        "totalprice": 1000,
+        "depositpaid": True,
+        "bookingdates": {
+            "checkin": "2024-01-01",
+            "checkout": "2024-02-01"
+        },
+        "additionalneeds": "Breakfast"
+    })
 
-    const bookingId = booking.data.bookingid;
+    booking_id = booking.data["bookingid"]
 
-    const response = await bookingService.getBooking<BookingModel>(bookingId);
-    response.status.should.equal(200, JSON.stringify(response.data));
-    response.data.firstname?.should.equal(booking.data.booking.firstname);
-    response.data.lastname?.should.equal(booking.data.booking.lastname);
-    response.data.totalprice?.should.equal(booking.data.booking.totalprice);
-    response.data.depositpaid?.should.be.true;
-    response.data.bookingdates?.checkin?.should.equal(booking.data.booking.bookingdates?.checkin);
-    response.data.bookingdates?.checkout?.should.equal(booking.data.booking.bookingdates?.checkout);
-    response.data.additionalneeds?.should.equal(booking.data.booking.additionalneeds);
-  });
+    response = booking_service.get_booking(booking_id)
+    assert response.status == 200
+    assert response.data["firstname"] == booking.data["booking"]["firstname"]
+    assert response.data["lastname"] == booking.data["booking"]["lastname"]
+    assert response.data["totalprice"] == booking.data["booking"]["totalprice"]
+    assert response.data["depositpaid"] is True
+    assert response.data["bookingdates"]["checkin"] == booking.data["booking"]["bookingdates"]["checkin"]
+    assert response.data["bookingdates"]["checkout"] == booking.data["booking"]["bookingdates"]["checkout"]
+    assert response.data["additionalneeds"] == booking.data["booking"]["additionalneeds"]
 ```
 
-In the example above, I am using a call to the addBooking endpoint to create the booking needed for the getBooking test, and then using the newly created booking to assert against it.
+In the example above, I am using a call to the add_booking endpoint to create the booking needed for the get_booking test, and then using the newly created booking to assert against it.
 
 ## Performance
 
-Request duration is measured and saved to the responseTime property of the response object. Therefore, you can add assertions to check the response time of each request.
+Request duration is measured and saved to the response_time property of the response object. Therefore, you can add assertions to check the response time of each request.
 
-```tsx
-it("@Regression - Get Booking successfully - Response time < 1000 ms", async () => {
-    const bookingId = 123456;
-    const response = await bookingService.getBooking<BookingModel>(bookingId);
-    response.responseTime.should.be.lessThan(1000);
-  });
+```python
+def test_get_booking_successfully_response_time(booking_service):
+    booking_id = 123456
+    response = booking_service.get_booking(booking_id)
+    assert response.response_time < 1000
 ```
 
 This makes adding simple but powerful performance checks to your API automation suite easy.
@@ -235,50 +232,62 @@ Additionally, the token is cached so that subsequent calls to `authenticate()` f
 
 Here’s the implementation of the `authenticate()` method:
 
-```typescript
-async authenticate(): Promise<void> {
-  const username = process.env["USER"];
-  const password = process.env["PASSWORD"];
+```python
+import os
+from src.models.request.CredentialsModel import CredentialsModel
+from src.models.responses.SessionResponse import SessionResponse
+from src.base.SessionManager import SessionManager
 
-  if (!username || !password) {
-    throw new Error("Missing username or password in environment variables.");
-  }
+class ServiceBase:
+    def __init__(self, endpoint_path):
+        self.api = ApiClient.getInstance()
+        self.url = self.base_url + endpoint_path
+        self.default_config = {}
 
-  const cachedToken = SessionManager.getCachedToken(username, password);
+    @property
+    def base_url(self):
+        return os.getenv("BASEURL", "")
 
-  if (cachedToken) {
-    this.defaultConfig = {
-      headers: { Cookie: "token=" + cachedToken },
-    };
-    return;
-  }
+    def authenticate(self):
+        username = os.getenv("USER")
+        password = os.getenv("PASSWORD")
 
-  const credentials: CredentialsModel = { username, password };
-  const response = await this.post<SessionResponse>(`${this.baseUrl}/auth`, credentials);
+        if not username or not password:
+            raise ValueError("Missing username or password in environment variables.")
 
-  SessionManager.storeToken(username, password, response.data.token);
+        cached_token = SessionManager.get_cached_token(username, password)
 
-  this.defaultConfig = {
-    headers: { Cookie: "token=" + response.data.token },
-  };
-}
+        if cached_token:
+            self.default_config = {
+                "headers": {"Cookie": "token=" + cached_token}
+            }
+            return
+
+        credentials = CredentialsModel(username, password)
+        response = self.post(f"{self.base_url}/auth", credentials)
+
+        SessionManager.store_token(username, password, response.data["token"])
+
+        self.default_config = {
+            "headers": {"Cookie": "token=" + response.data["token"]}
+        }
 ```
 
 Then you can use it on the services that require authentication, like in the before hook below.
 
-```tsx
-describe("Delete Booking", () => {
-  const bookingService = new BookingService();
+```python
+import pytest
+from src.models.services.BookingService import BookingService
 
-  before(async () => {
-    await bookingService.authenticate();
-  });
+@pytest.fixture
+def booking_service():
+    service = BookingService()
+    service.authenticate()
+    return service
 
-  it("@Smoke - Delete Booking successfully", async () => {
-    const response = await bookingService.deleteBooking<BookingResponse>(bookingId);
-    response.status.should.equal(204, JSON.stringify(response.data));
-  });
-})
+def test_delete_booking_successfully(booking_service):
+    response = booking_service.delete_booking(booking_id)
+    assert response.status == 204
 ```
 
 ## Bug Management
@@ -289,7 +298,7 @@ In this case, bugs are skipped while open, to maintain a green pipeline. The iss
 
 To do that, I add a comment on top of the test before skipping it, containing the link to the test and a visual indication with the help of the TODO Highlight extension.
 
-To avoid unwanted skipped tests, I set an eslint rule to not allow them. Hence, besides the BUG comment, I have to add one to disable eslint for the next line. This makes it easier not to forget skipped or focused tests while helping the PR review process for the reviewer (a disabled eslint rule must have a good justification)
+To avoid unwanted skipped tests, I set an flake8 rule to not allow them. Hence, besides the BUG comment, I have to add one to disable flake8 for the next line. This makes it easier not to forget skipped or focused tests while helping the PR review process for the reviewer (a disabled flake8 rule must have a good justification)
 
 ![Bug](./images/bug.png)
 
@@ -297,7 +306,7 @@ To avoid unwanted skipped tests, I set an eslint rule to not allow them. Hence, 
 
 This repository utilizes GitHub Actions for continuous integration and delivery (CI/CD). Our pipeline is configured to run all tests on each Pull Request or Merge to the main branch. Here is what typically happens:
 
-1. **Linting**: The pipeline runs ESLint to check for syntax errors and enforce code style guidelines.
+1. **Linting**: The pipeline runs Flake8 to check for syntax errors and enforce code style guidelines.
 2. **Testing**: It executes the automated tests defined in the repository.
 3. **Deployment (Optional)**: If all tests pass, the pipeline can automatically deploy your code to the production environment.
 
@@ -318,9 +327,9 @@ See branch `features/two-step-pipeline` as an example of a pipeline that does th
 2. Runs the Regression tests, that do not make the pipeline fail.
 
 ### Linting in the pipeline
-As mentioned above, this job will run ESLint before running the tests. In the following screenshot, the pipeline failed due to an eslint error.
+As mentioned above, this job will run Flake8 before running the tests. In the following screenshot, the pipeline failed due to an flake8 error.
 
-![Eslint error](./images/eslint-error.png)
+![Flake8 error](./images/flake8-error.png)
 
 For more detailed examples and advanced features, refer to the [GitHub Actions Documentation](https://docs.github.com/en/actions).
 
