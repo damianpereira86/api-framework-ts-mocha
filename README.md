@@ -350,7 +350,7 @@ Here are a few ways you can reach out for support or assistance:
 
 - **Discussions**: For questions, suggestions, or general discussions about the project, please use the [Discussions](https://github.com/damianpereira86/api-framework-ts-mocha/discussions) section of the GitHub repository. This is a great place to connect with other users and contributors, share ideas, and get advice.
 
-- **Email**: If you prefer direct communication, you can email me at [damianpereira@gmail.com](mailto:damianpereira@gmail.com). I'll try to respond as promptly as possible.
+- **Email**: If you prefer direct communication, you can email me at [damianpereira86@gmail.com](mailto:damianpereira86@gmail.com). I'll try to respond as promptly as possible.
 
 ## Contribution Guidelines
 
