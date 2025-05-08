@@ -1,8 +1,6 @@
 import { type SessionResponse } from "../../models/responses/SessionResponse";
 import { AuthService } from "../../models/services/AuthService.js";
-import * as chai from "chai";
-
-chai.should();
+import "chai/register-should.js";
 
 describe("Sign In", () => {
   const authService = new AuthService();

@@ -1,8 +1,6 @@
 import { BookingService } from "../../models/services/BookingService.js";
 import { BookingResponse } from "../../models/responses/BookingResponse.js";
-import * as chai from "chai";
-
-chai.should();
+import "chai/register-should.js";
 
 describe("Delete Booking", () => {
   const bookingService = new BookingService();

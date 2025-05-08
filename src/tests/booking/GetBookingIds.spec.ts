@@ -1,9 +1,7 @@
 import { BookingResponse } from "../../models/responses/BookingResponse";
 import type { BookingIdResponse } from "../../models/responses/BookingIdResponse";
 import { BookingService } from "../../models/services/BookingService.js";
-import * as chai from "chai";
-
-chai.should();
+import "chai/register-should.js";
 
 describe("Get Booking Ids", () => {
   const bookingService = new BookingService();
