@@ -16,7 +16,7 @@ describe("Add Booking", () => {
         checkin: "2020-01-01",
         checkout: "2021-01-01",
       },
-      additionalneeds: 'Breakfast',
+      additionalneeds: "Breakfast",
     };
 
     const response = await bookingService.addBooking<BookingResponse>(booking);
